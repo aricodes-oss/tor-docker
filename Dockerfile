@@ -21,7 +21,7 @@ WORKDIR /build/tor
 
 RUN ./autogen.sh
 RUN ./configure --disable-asciidoc
-RUN make
+RUN make -j$(nproc)
 
 ### Executor
 FROM alpine:latest
