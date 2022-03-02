@@ -2,11 +2,11 @@ kind: pipeline
 type: docker
 name: Build multiarch image
 
-trigger:
-  event:
-    - cron
-  cron:
-    - nightly
+# trigger:
+#   event:
+#     - cron
+#   cron:
+#     - nightly
 
 steps:
   - name: Binfmt
