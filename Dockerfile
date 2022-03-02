@@ -1,14 +1,6 @@
 ### Build
 FROM alpine:latest as build
 
-WORKDIR /build
-
-RUN apk add git
-
-# Pull latest master
-RUN git clone https://gitlab.torproject.org/tpo/core/tor.git
-WORKDIR /build/tor
-
 # Install build dependencies
 RUN apk add \
     musl-dev \
@@ -18,6 +10,14 @@ RUN apk add \
     libevent libevent-dev \
     openssl openssl-dev \
     zlib zlib-dev
+
+WORKDIR /build
+
+RUN apk add git
+
+# Pull latest master
+RUN git clone https://gitlab.torproject.org/tpo/core/tor.git
+WORKDIR /build/tor
 
 RUN ./autogen.sh
 RUN ./configure --disable-asciidoc
@@ -29,7 +29,7 @@ FROM alpine:latest
 RUN apk add libevent openssl zlib
 
 WORKDIR /tor
-COPY --from=build /build/tor/src/app/* ./
+COPY --from=build /build/tor/src/app .
 
 VOLUME ["/etc/torrc"]
 
